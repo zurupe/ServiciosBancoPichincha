@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Pagar Servicios - Banco Pichincha{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="bi bi-receipt"></i> Pago de Servicios</h2>
+        <p class="text-muted">Selecciona la categoría del servicio a pagar</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    {% for tipo in tipos %}
+    <div class="col-md-6 col-lg-3">
+        <a href="{{ url_for('servicios_categoria', categoria=tipo.codigo) }}" class="text-decoration-none">
+            <div class="card servicio-card h-100 text-center p-4">
+                {% if tipo.codigo == 'IMPUESTOS' %}
+                <i class="bi bi-building display-3" style="color: var(--bp-yellow);"></i>
+                {% elif tipo.codigo == 'MATRICULA' %}
+                <i class="bi bi-car-front display-3" style="color: var(--bp-yellow);"></i>
+                {% elif tipo.codigo == 'MULTAS' %}
+                <i class="bi bi-exclamation-triangle display-3" style="color: var(--bp-yellow);"></i>
+                {% else %}
+                <i class="bi bi-lightbulb display-3" style="color: var(--bp-yellow);"></i>
+                {% endif %}
+                <h4 class="mt-3">{{ tipo.nombre }}</h4>
+                <small class="text-muted">{{ tipo.descripcion }}</small>
+                <div class="mt-2">
+                    <span class="badge bg-secondary">{{ tipo.cantidad_proveedores }} proveedores</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-circle"></i> No hay servicios disponibles.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="mt-4">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>
+</div>
+{% endblock %}

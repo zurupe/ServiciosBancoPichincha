@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Error {{ codigo }} - Banco Pichincha{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="col-md-6 text-center">
+        <i class="bi bi-exclamation-triangle display-1 text-warning"></i>
+        <h1 class="display-4 mt-3">Error {{ codigo }}</h1>
+        <p class="lead text-muted">{{ mensaje }}</p>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-4">
+            <i class="bi bi-house"></i> Volver al Inicio
+        </a>
+    </div>
+</div>
+{% endblock %}

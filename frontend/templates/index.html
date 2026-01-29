@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Bienvenido - Banco Pichincha{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-6 text-center">
+        <div class="mb-5">
+            <i class="bi bi-bank2 display-1" style="color: var(--bp-yellow);"></i>
+            <h1 class="display-4 mt-3">Banco Pichincha</h1>
+            <p class="lead">Banca en línea segura y confiable</p>
+        </div>
+
+        <div class="d-grid gap-3 col-md-6 mx-auto">
+            <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">
+                <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+            </a>
+        </div>
+
+        <div class="mt-5 pt-4">
+            <div class="row text-center g-4">
+                <div class="col-4">
+                    <i class="bi bi-shield-check display-6" style="color: var(--bp-yellow);"></i>
+                    <p class="small mt-2">Transacciones Seguras</p>
+                </div>
+                <div class="col-4">
+                    <i class="bi bi-clock-history display-6" style="color: var(--bp-yellow);"></i>
+                    <p class="small mt-2">24/7 Disponible</p>
+                </div>
+                <div class="col-4">
+                    <i class="bi bi-phone display-6" style="color: var(--bp-yellow);"></i>
+                    <p class="small mt-2">Fácil de Usar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Iniciar Sesión - Banco Pichincha{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-5 col-lg-4">
+        <div class="card">
+            <div class="card-header text-center py-3">
+                <i class="bi bi-bank2 display-6" style="color: var(--bp-yellow);"></i>
+                <h4 class="mt-2 mb-0">Iniciar Sesión</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="{{ url_for('login') }}">
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <i class="bi bi-person"></i> Usuario
+                        </label>
+                        <input type="text" class="form-control" name="usuario" placeholder="Cédula o correo electrónico"
+                            required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="bi bi-lock"></i> Contraseña
+                        </label>
+                        <input type="password" class="form-control" name="password" placeholder="Tu contraseña"
+                            required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-box-arrow-in-right"></i> Ingresar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ url_for('index') }}" class="text-light">
+                <i class="bi bi-arrow-left"></i> Volver al inicio
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

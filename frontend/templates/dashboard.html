@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Banco Pichincha{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h2><i class="bi bi-house"></i> Bienvenido, {{ usuario.get('nombre_completo', usuario.get('nombre', 'Usuario'))
+            }}</h2>
+        <p class="text-muted">Gestiona tus cuentas y realiza operaciones</p>
+    </div>
+</div>
+
+<!-- Resumen de Cuentas -->
+<div class="row g-4 mb-5">
+    {% for cuenta in cuentas %}
+    <div class="col-md-6 col-lg-4">
+        <div class="saldo-card">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <small class="text-white-50">{{ cuenta.tipo_cuenta }}</small>
+                    <h5 class="mb-0">{{ cuenta.numero_cuenta }}</h5>
+                </div>
+                <i class="bi bi-credit-card-2-front fs-3"></i>
+            </div>
+            <div class="mt-3">
+                <small class="text-white-50">Saldo Disponible</small>
+                <h2 class="mb-0">${{ "%.2f"|format(cuenta.saldo_actual) }}</h2>
+            </div>
+            <div class="mt-3">
+                <a href="{{ url_for('detalle_cuenta', id=cuenta.id) }}" class="btn btn-sm btn-light">
+                    Ver Detalles <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> No tienes cuentas registradas.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Acciones Rápidas -->
+<h4 class="mb-3"><i class="bi bi-lightning"></i> Acciones Rápidas</h4>
+<div class="row g-4">
+    <div class="col-md-4 col-lg-3">
+        <a href="{{ url_for('transferir') }}" class="text-decoration-none">
+            <div class="card servicio-card h-100 text-center p-4">
+                <i class="bi bi-arrow-left-right display-4" style="color: var(--bp-yellow);"></i>
+                <h5 class="mt-3">Transferir</h5>
+                <small class="text-muted">Entre cuentas propias o terceros</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <a href="{{ url_for('servicios') }}" class="text-decoration-none">
+            <div class="card servicio-card h-100 text-center p-4">
+                <i class="bi bi-receipt display-4" style="color: var(--bp-yellow);"></i>
+                <h5 class="mt-3">Pagar Servicios</h5>
+                <small class="text-muted">Luz, agua, teléfono, impuestos</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <a href="{{ url_for('retiro_sin_tarjeta') }}" class="text-decoration-none">
+            <div class="card servicio-card h-100 text-center p-4">
+                <i class="bi bi-cash-stack display-4" style="color: var(--bp-yellow);"></i>
+                <h5 class="mt-3">Retiro sin Tarjeta</h5>
+                <small class="text-muted">Genera código para cajero</small>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-4 col-lg-3">
+        <a href="{{ url_for('cuentas') }}" class="text-decoration-none">
+            <div class="card servicio-card h-100 text-center p-4">
+                <i class="bi bi-wallet2 display-4" style="color: var(--bp-yellow);"></i>
+                <h5 class="mt-3">Mis Cuentas</h5>
+                <small class="text-muted">Ver todas mis cuentas</small>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

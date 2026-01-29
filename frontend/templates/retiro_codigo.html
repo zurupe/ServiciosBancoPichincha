@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Código de Retiro - Banco Pichincha{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center" style="min-height: 60vh;">
+    <div class="col-md-6 col-lg-4 text-center">
+        <div class="card">
+            <div class="card-body p-5">
+                <i class="bi bi-check-circle display-1 text-success mb-3"></i>
+                <h3>Código Generado</h3>
+
+                <div class="my-4 p-4 rounded" style="background: rgba(255,221,0,0.2);">
+                    <small class="text-muted d-block mb-2">Tu código de retiro es:</small>
+                    <h1 class="display-3 fw-bold" style="color: var(--bp-yellow); letter-spacing: 10px;">
+                        {{ codigo.codigo }}
+                    </h1>
+                </div>
+
+                <div class="mb-4">
+                    <p class="mb-1"><strong>Monto:</strong> ${{ "%.2f"|format(codigo.monto) }}</p>
+                    <p class="mb-1"><strong>Expira en:</strong> {{ codigo.minutos_valido }} minutos</p>
+                    <p class="text-danger"><i class="bi bi-clock"></i> {{ codigo.expira }}</p>
+                </div>
+
+                <div class="alert alert-info text-start">
+                    <h6><i class="bi bi-info-circle"></i> Instrucciones:</h6>
+                    <ol class="mb-0 small">
+                        <li>Dirígete a un cajero Banco Pichincha</li>
+                        <li>Selecciona "Retiro sin Tarjeta"</li>
+                        <li>Ingresa el código de 6 dígitos</li>
+                        <li>Retira tu dinero</li>
+                    </ol>
+                </div>
+
+                <div class="d-grid">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                        <i class="bi bi-house"></i> Volver al Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

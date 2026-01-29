@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}{{ categoria }} - Pagar Servicios{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('servicios') }}">Servicios</a></li>
+                <li class="breadcrumb-item active">{{ categoria }}</li>
+            </ol>
+        </nav>
+        <h2><i class="bi bi-receipt"></i> {{ categoria }}</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        {% for proveedor in proveedores %}
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ proveedor.nombre }}</h5>
+                <span class="badge bg-primary">{{ proveedor.cantidad_servicios }} servicios</span>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    {% for servicio in proveedor.servicios %}
+                    <div class="col-md-6">
+                        <div class="border rounded p-3" style="border-color: rgba(255,255,255,0.2) !important;">
+                            <h6>{{ servicio.nombre }}</h6>
+                            <small class="text-muted d-block mb-2">{{ servicio.descripcion or 'Sin descripción'
+                                }}</small>
+                            {% if servicio.comision %}
+                            <small class="text-warning">Comisión: ${{ "%.2f"|format(servicio.comision) }}</small>
+                            {% endif %}
+                            <button class="btn btn-sm btn-primary mt-2 w-100" data-bs-toggle="modal"
+                                data-bs-target="#pagarModal" data-codigo="{{ servicio.codigo }}"
+                                data-nombre="{{ servicio.nombre }}" data-comision="{{ servicio.comision or 0 }}">
+                                <i class="bi bi-credit-card"></i> Pagar
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info">No hay proveedores en esta categoría</div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal de Pago -->
+<div class="modal fade" id="pagarModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-credit-card"></i> Pagar Servicio</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ url_for('pagar_servicio') }}">
+                <div class="modal-body">
+                    <input type="hidden" name="codigo_servicio" id="form_codigo">
+
+                    <div class="mb-3">
+                        <label class="form-label">Servicio</label>
+                        <input type="text" class="form-control" id="form_nombre" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Número de Referencia</label>
+                        <input type="text" class="form-control" name="referencia" required
+                            placeholder="Ej: número de suministro, cédula, placa...">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Monto a Pagar ($)</label>
+                        <input type="number" step="0.01" class="form-control" name="monto" required placeholder="0.00"
+                            min="0.01">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Cuenta a Debitar</label>
+                        <select class="form-select" name="id_cuenta" required>
+                            {% for cuenta in cuentas %}
+                            <option value="{{ cuenta.id }}">
+                                {{ cuenta.numero_cuenta }} - ${{ "%.2f"|format(cuenta.saldo_actual) }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <small><i class="bi bi-info-circle"></i> Comisión: $<span id="form_comision">0.00</span></small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i> Confirmar Pago
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('pagarModal').addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        document.getElementById('form_codigo').value = button.getAttribute('data-codigo');
+        document.getElementById('form_nombre').value = button.getAttribute('data-nombre');
+        document.getElementById('form_comision').textContent = parseFloat(button.getAttribute('data-comision')).toFixed(2);
+    });
+</script>
+{% endblock %}
