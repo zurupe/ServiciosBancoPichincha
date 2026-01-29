@@ -1,7 +1,7 @@
 """Rutas CRUD para Personas"""
 
 from flask import Blueprint, jsonify, request
-from app import db
+from extensions import db
 from models.persona import Persona, PersonaNatural, PersonaJuridica
 from datetime import datetime
 

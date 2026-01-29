@@ -2,7 +2,7 @@
 Modelo Servicio - Servicios específicos que se pueden pagar
 """
 
-from app import db
+from extensions import db
 
 
 class Servicio(db.Model):

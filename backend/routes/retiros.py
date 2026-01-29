@@ -1,7 +1,7 @@
 """Rutas para Retiros (con y sin tarjeta)"""
 
 from flask import Blueprint, jsonify, request
-from app import db
+from extensions import db
 from models.transaccion import Transaccion, RetiroSinTarjeta
 from models.cuenta import Cuenta
 from models.tarjeta import Tarjeta

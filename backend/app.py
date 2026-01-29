@@ -6,13 +6,9 @@ Puerto: 5001
 
 from flask import Flask, jsonify
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from extensions import db, login_manager
 from config import config
 import os
-
-db = SQLAlchemy()
-login_manager = LoginManager()
 
 
 def create_app(config_name=None):

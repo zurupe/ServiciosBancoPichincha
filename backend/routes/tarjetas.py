@@ -1,7 +1,7 @@
 """Rutas CRUD para Tarjetas"""
 
 from flask import Blueprint, jsonify, request
-from app import db
+from extensions import db
 from models.tarjeta import Tarjeta, TarjetaDebito, TarjetaCredito
 from models.cuenta import Cuenta
 from datetime import date

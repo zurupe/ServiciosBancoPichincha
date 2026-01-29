@@ -1,7 +1,7 @@
 """Rutas para Transacciones"""
 
 from flask import Blueprint, jsonify, request
-from app import db
+from extensions import db
 from models.transaccion import Transaccion
 from models.cuenta import Cuenta
 from decimal import Decimal

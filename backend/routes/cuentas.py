@@ -1,7 +1,7 @@
 """Rutas CRUD para Cuentas"""
 
 from flask import Blueprint, jsonify, request
-from app import db
+from extensions import db
 from models.cuenta import Cuenta, CuentaAhorros, CuentaCorriente
 from models.persona import Persona
 

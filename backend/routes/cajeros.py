@@ -1,7 +1,7 @@
 """Rutas para Cajeros"""
 
 from flask import Blueprint, jsonify, request
-from app import db
+from extensions import db
 from models.cajero import Cajero
 
 cajeros_bp = Blueprint('cajeros', __name__)

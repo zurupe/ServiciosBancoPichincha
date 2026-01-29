@@ -2,7 +2,7 @@
 Modelo TipoServicio - Categorías de servicios
 """
 
-from app import db
+from extensions import db
 
 
 class TipoServicio(db.Model):

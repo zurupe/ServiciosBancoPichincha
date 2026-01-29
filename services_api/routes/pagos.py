@@ -6,7 +6,7 @@ POST /api/v1/pagos - Procesa un nuevo pago
 """
 
 from flask import Blueprint, jsonify, request
-from app import db
+from extensions import db
 from models.pago import PagoServicio
 from models.servicio import Servicio
 from datetime import datetime

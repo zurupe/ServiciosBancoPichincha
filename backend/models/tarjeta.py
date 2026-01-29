@@ -1,6 +1,6 @@
 """Modelo Tarjeta - Tarjetas de débito y crédito"""
 
-from app import db
+from extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta

@@ -2,7 +2,7 @@
 
 from flask import Blueprint, jsonify, request, session
 from flask_login import login_user, logout_user, login_required, current_user
-from app import db, login_manager
+from extensions import db, login_manager
 from models.persona import Persona, PersonaNatural
 
 auth_bp = Blueprint('auth', __name__)

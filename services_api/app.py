@@ -6,12 +6,9 @@ Puerto: 5002
 
 from flask import Flask, jsonify
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
+from extensions import db
 from config import config
 import os
-
-# Inicializar extensiones
-db = SQLAlchemy()
 
 def create_app(config_name=None):
     """Factory para crear la aplicación Flask"""

@@ -1,6 +1,6 @@
 """Modelo Cuenta - Cuentas bancarias"""
 
-from app import db
+from extensions import db
 from datetime import datetime
 import random
 import string

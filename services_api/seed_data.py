@@ -3,7 +3,8 @@ Script para generar datos de prueba
 Genera 30+ registros de pagos de servicios
 """
 
-from app import create_app, db
+from app import create_app
+from extensions import db
 from models.tipo_servicio import TipoServicio
 from models.proveedor import ProveedorServicio
 from models.servicio import Servicio
@@ -41,6 +42,13 @@ def generar_pagos_prueba(cantidad=35):
         print("No hay servicios en la base de datos. Ejecute primero el schema.sql")
         return 0
     
+    # Obtener IDs de cuentas reales
+    try:
+        result = db.session.execute(db.text("SELECT id_cuenta FROM cuenta"))
+        ids_cuentas = [row[0] for row in result]
+    except Exception:
+        ids_cuentas = []
+    
     for i in range(cantidad):
         servicio = random.choice(servicios)
         tipo_codigo = servicio.proveedor.tipo.codigo if servicio.proveedor and servicio.proveedor.tipo else 'SERVICIOS'
@@ -66,7 +74,7 @@ def generar_pagos_prueba(cantidad=35):
         
         pago = PagoServicio(
             id_servicio=servicio.id_servicio,
-            id_cuenta=random.randint(1, 30) if random.random() > 0.3 else None,
+            id_cuenta=random.choice(ids_cuentas) if ids_cuentas and random.random() > 0.3 else None,
             referencia_cliente=referencia,
             monto_base=monto_base,
             comision=comision,

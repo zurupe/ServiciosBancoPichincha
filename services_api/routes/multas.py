@@ -7,7 +7,7 @@ GET /api/v1/multas/consultar - Consultar multas pendientes
 """
 
 from flask import Blueprint, jsonify, request
-from app import db
+from extensions import db
 from models.pago import PagoServicio
 from models.servicio import Servicio
 from decimal import Decimal

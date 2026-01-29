@@ -2,7 +2,7 @@
 Modelo ProveedorServicio - Proveedores de servicios (ANT, CNT, SRI, etc.)
 """
 
-from app import db
+from extensions import db
 
 
 class ProveedorServicio(db.Model):

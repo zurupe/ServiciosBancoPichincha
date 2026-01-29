@@ -1,141 +1,116 @@
 # Banco Pichincha - Sistema Bancario Integrado
 
-Sistema bancario completo con arquitectura de microservicios.
+Sistema bancario completo desarrollado con arquitectura de microservicios en Python (Flask).
 
-## Arquitectura
+## 🏗️ Arquitectura
 
+El sistema se compone de 3 servicios principales que se ejecutan independientemente:
+
+```mermaid
+graph TD
+    User((Usuario))
+    Front[Frontend<br>Puerto 5000]
+    Back[Backend Principal<br>Puerto 5001]
+    Serv[API Servicios<br>Puerto 5002]
+    DB[(PostgreSQL)]
+
+    User -->|Navegador| Front
+    Front -->|REST API| Back
+    Front -->|REST API| Serv
+    Back -->|SQLAlchemy| DB
+    Serv -->|SQLAlchemy| DB
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│    Frontend     │────▶│     Backend     │────▶│   PostgreSQL    │
-│   Puerto 5000   │     │   Puerto 5001   │     │                 │
-└────────┬────────┘     └─────────────────┘     └─────────────────┘
-         │
-         │              ┌─────────────────┐
-         └─────────────▶│  API Servicios  │
-                        │   Puerto 5002   │
-                        └─────────────────┘
-```
 
-## Requisitos Previos
+1.  **Frontend (5000):** Interfaz web para el usuario (Flask + Jinja2).
+2.  **Backend (5001):** API Principal para gestión de usuarios, cuentas y transacciones.
+3.  **API Servicios (5002):** Microservicio dedicado para pagos de servicios externos (Agua, Luz, SRI, etc.).
 
-- Python 3.8+
+---
+
+## 🚀 Requisitos Previos
+
+- Python 3.10+
 - PostgreSQL 12+
-- pip (gestor de paquetes Python)
+- Acceso a Internet (para instalar paquetes)
 
-## Instalación Rápida
+---
 
-### 1. Crear Base de Datos
+## 🛠️ Instalación y Configuración
 
-```sql
--- En PostgreSQL
-CREATE DATABASE banco_pichincha;
-\c banco_pichincha
-\i database/schema.sql
+Sigue estos pasos para configurar el proyecto desde cero:
+
+### 1. Configurar Base de Datos
+Asegúrate de tener un servidor PostgreSQL corriendo.
+1. Crea una base de datos llamada `banco_pichincha`.
+2. Ejecuta el script SQL `database/schema.sql` para crear las tablas.
+
+### 2. Configurar Entorno
+Crea los archivos `.env` en cada carpeta (`backend`, `frontend`, `services_api`) basándote en los `.env.example`.
+
+**Ejemplo de `.env` para Backend y Services:**
+```ini
+DB_HOST=192.168.100.12
+DB_PORT=5432
+DB_NAME=banco_pichincha
+DB_USER=tu_usuario
+DB_PASSWORD=tu_password
 ```
 
-### 2. Instalar Dependencias
+### 3. Instalar Dependencias
+Debes instalar las librerías para CADA servicio:
 
 ```bash
-# API de Servicios
-cd services_api
+# Frontend
+cd frontend
 pip install -r requirements.txt
 
 # Backend
 cd ../backend
 pip install -r requirements.txt
 
-# Frontend
-cd ../frontend
+# Services API
+cd ../services_api
 pip install -r requirements.txt
 ```
 
-### 3. Configurar Variables de Entorno
-
-Copiar los archivos `.env.example` a `.env` en cada servicio:
+### 4. Poblar Datos (Opcional)
+Para tener usuarios y datos de prueba:
 
 ```bash
-copy services_api\.env.example services_api\.env
-copy backend\.env.example backend\.env
-copy frontend\.env.example frontend\.env
+cd backend
+python seed_backend.py    # Crea usuarios y cuentas
+python seed_extra_data.py # Crea cajeros y empresas
+
+cd ../services_api
+python seed_data.py       # Crea tipos de servicio y pagos
 ```
 
-Editar cada `.env` con las credenciales de PostgreSQL.
+---
 
-### 4. Iniciar Todo
+## ▶️ Ejecución
 
-**Opción A - Script automático (Windows):**
-```batch
+### Método Automático (Windows)
+Simplemente ejecuta el archivo raíz:
+```cmd
 iniciar.bat
 ```
+Esto abrirá 3 terminales y levantará todos los servicios.
 
-**Opción B - Manual (3 terminales):**
+---
 
-```bash
-# Terminal 1 - API Servicios
-cd services_api
-python app.py
+## 👤 Usuarios de Prueba
 
-# Terminal 2 - Backend
-cd backend
-python app.py
+| Nombre        | Usuario (Correo)             | Contraseña | Rol     |
+| :------------ | :--------------------------- | :--------- | :------ |
+| Carlos Garcia | `carlos.garcia0@example.com` | `1234`     | Cliente |
+| Juan Torres   | `juan.torres1@example.com`   | `1234`     | Cliente |
+| Supermaxi     | `contacto0@empresa.com`      | `admin123` | Empresa |
 
-# Terminal 3 - Frontend
-cd frontend
-python app.py
-```
+---
 
-### 5. Acceder al Sistema
+## 📂 Estructura del Proyecto
 
-- **Frontend:** http://localhost:5000
-- **Backend API:** http://localhost:5001
-- **Services API:** http://localhost:5002
-
-## Estructura del Proyecto
-
-```
-ProyectoIntegradorGr5/
-├── database/
-│   └── schema.sql          # DDL PostgreSQL
-├── services_api/           # API Servicios (5002)
-│   ├── app.py
-│   ├── models/
-│   └── routes/
-├── backend/                # Backend Principal (5001)
-│   ├── app.py
-│   ├── models/
-│   └── routes/
-├── frontend/               # Interfaz Web (5000)
-│   ├── app.py
-│   └── templates/
-└── iniciar.bat            # Script de inicio
-```
-
-## Funcionalidades
-
-### Backend (5001)
-- CRUD de Personas (Natural/Jurídica)
-- Gestión de Cuentas (Ahorros/Corriente)
-- Tarjetas (Débito/Crédito)
-- Transferencias
-- Retiros con/sin tarjeta
-
-### API Servicios (5002)
-- Pago de Impuestos
-- Matrícula Vehicular
-- Multas (ANT, CNT, Claro)
-- Servicios Públicos (Luz, Agua, Teléfono)
-
-### Frontend (5000)
-- Dashboard con resumen de cuentas
-- Transferencias entre cuentas
-- Pago de servicios
-- Generación de códigos para retiro sin tarjeta
-
-## Datos de Prueba
-
-Para generar datos de prueba en la API de Servicios:
-
-```bash
-cd services_api
-python seed_data.py
-```
+- `/backend`: Lógica de negocio principal (Cuentas, Tarjetas, Transacciones).
+- `/frontend`: Interfaz gráfica (HTML/CSS/JS).
+- `/services_api`: Lógica para pagos de servicios (Luz, Agua, Multas).
+- `/database`: Scripts SQL.
