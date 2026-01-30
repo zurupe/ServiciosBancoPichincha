@@ -50,3 +50,6 @@ pip-delete-this-directory.txt
 backend/.env
 frontend/.env
 services_api/.env
+
+# Power Designer
+Workspace_Modelado_BancoPichincha.sws
